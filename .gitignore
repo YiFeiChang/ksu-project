@@ -8,3 +8,4 @@ chat_histories
 .vs/
 dotnet/*/bin/
 dotnet/*/obj/
+dotnet/*/wwwroot/
