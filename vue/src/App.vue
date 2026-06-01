@@ -89,7 +89,7 @@ import axios, { type AxiosResponse } from 'axios';
 import * as echarts from 'echarts';
 
 // === 系統配置 ===
-const API_BASE = '~/api';
+const API_BASE = 'api';
 const DEVICE_IDS: Record<string, string> = {
     temperature: 'NodeMCU-32S_temperature',
     humidity: 'NodeMCU-32S_humidity',
