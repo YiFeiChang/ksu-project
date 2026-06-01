@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package webcam;
+
+// 定義 WebCam 串流服務
+service WebCamService {
+    rpc StreamVideo (StreamRequest) returns (stream Frame);
+    rpc SetFocus (FocusRequest) returns (FocusResponse);
+}
+
+// 客戶端發送的請求
+message StreamRequest {
+    bool start = 1;
+}
+
+// 伺服器回傳的影像資料
+message Frame {
+    bytes data = 1;
+}
+
+// 設定對焦請求
+message FocusRequest {
+    bool auto_focus = 1;      // true 表示自動對焦，false 表示手動對焦
+    int32 focus_value = 2;    // 手動對焦的數值 (當 auto_focus = false 時生效)
+}
+
+// 設定對焦回應
+message FocusResponse {
+    bool success = 1;
+    string message = 2;
+}

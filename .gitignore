@@ -1,0 +1,10 @@
+.venv
+__pycache__
+chat_histories
+.env
+.ipynb_checkpoints/
+.vscode/
+.config/
+.vs/
+dotnet/*/bin/
+dotnet/*/obj/

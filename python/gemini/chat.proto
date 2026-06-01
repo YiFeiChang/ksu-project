@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package geminichat;
+
+// 定義聊天服務
+service ChatService {
+    // 傳送訊息的方法
+    rpc SendMessage (ChatMessage) returns (ChatReply) {}
+}
+
+// 客戶端傳送的訊息格式
+message ChatMessage {
+    string text = 1;
+    string user_id = 2;
+    string platform = 3; // 來源平台，例如 "line", "console"
+    LineMetadata line_metadata = 4; // LINE 專屬的中繼資料
+    bytes image_data = 5; // 新增：圖片資料 (二進位)
+    string image_mime_type = 6; // 新增：圖片的 MIME 類型 (例如 "image/jpeg")
+}
+
+// LINE 訊息的專屬中繼資料
+message LineMetadata {
+    string reply_token = 1;
+    string message_type = 2; // 例如 "text", "sticker", "image"
+    string message_id = 3;
+    string sticker_id = 4; // 新增：貼圖 ID
+}
+
+// 伺服器回傳的訊息格式
+message ChatReply {
+    string text = 1;
+}

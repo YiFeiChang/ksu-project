@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package webcam;
+
+// 定義 WebCam 串流服務
+service WebCamService {
+    rpc StreamVideo (StreamRequest) returns (stream Frame);
+}
+
+// 客戶端發送的請求
+message StreamRequest {
+    bool start = 1;
+}
+
+// 伺服器回傳的影像資料
+message Frame {
+    bytes data = 1;
+}
