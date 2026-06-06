@@ -14,16 +14,14 @@ message ChatMessage {
     string user_id = 2;
     string platform = 3; // 來源平台，例如 "line", "console"
     LineMetadata line_metadata = 4; // LINE 專屬的中繼資料
-    bytes image_data = 5; // 新增：圖片資料 (二進位)
-    string image_mime_type = 6; // 新增：圖片的 MIME 類型 (例如 "image/jpeg")
+    string user_display_name = 5; // LINE 用戶的顯示名稱
+    string user_profile_json = 6; // LINE 用戶的完整個人資料 JSON 字串
 }
 
 // LINE 訊息的專屬中繼資料
 message LineMetadata {
     string reply_token = 1;
-    string message_type = 2; // 例如 "text", "sticker", "image"
-    string message_id = 3;
-    string sticker_id = 4; // 新增：貼圖 ID
+    string message_json = 2; // 新增：整個 LINE event.message 的 JSON 字串
 }
 
 // 伺服器回傳的訊息格式

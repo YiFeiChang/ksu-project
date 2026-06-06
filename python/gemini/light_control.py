@@ -6,7 +6,7 @@ import logging
 from typing import Dict, Final, Optional, List, Tuple
 
 # 常數定義
-API_URL: Final[str] = "http://localhost:5000/api/Gpio/NodeMCU-32S/Light%201"
+API_URL: Final[str] = "http://10.0.2.3:5000/api/Gpio/NodeMCU-32S/Light%201"
 HEADERS: Final[Dict[str, str]] = {
     "accept": "*/*",
     "Content-Type": "application/json"
