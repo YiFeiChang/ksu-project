@@ -352,14 +352,35 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
         # 設定圖的流程邊緣
         workflow.add_edge(START, "debug")
-        workflow.add_conditional_edges("debug", check_if_plant_image)
-        # 如果是植物圖片，導向 disease_check，執行完畢後導向 agent 處理最終回應
+        workflow.add_conditional_edges(
+            "debug", 
+            check_if_plant_image,
+            {
+                "disease_check": "disease_check",
+                "agent": "agent"
+            }
+        )
         workflow.add_edge("disease_check", "agent")
-        workflow.add_conditional_edges("agent", should_use_tool)
+        workflow.add_conditional_edges(
+            "agent", 
+            should_use_tool,
+            {
+                "tools": "tools",
+                END: END
+            }
+        )
         workflow.add_edge("tools", "agent")
 
         # 編譯圖
         self.app = workflow.compile()
+
+        # 將 workflow 儲存成 png
+        try:
+            self.app.get_graph().draw_mermaid_png(output_file_path="workflow.png")
+            print("[INFO] 工作流圖表已儲存至 workflow.png")
+        except Exception as e:
+            print(f"[警告] 無法產生工作流圖表: {e}")
+
         print("[INFO] LangGraph Agent 已成功建立並編譯完成。")
 
     def _get_history_file(self, user_id: str) -> str:
@@ -435,7 +456,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
         summarization_prompt: str = (
             "你是一個擅長總結對話的 AI 助理。"
-            "請根據以下對話歷史，產生一個簡潔的摘要，這個摘要將作為未來對話的上下文參考。"
+            "請根據以下對話歷史，產生一個字數在 2048 以內的摘要，這個摘要將作為未來對話的上下文參考。"
             "摘要應包含所有關鍵訊息、使用者偏好和已解決的問題。\n\n"
             f"=== 對話歷史 ===\n{history_text}\n\n=== 摘要 ==="
         )
@@ -498,6 +519,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
                 f"使用者的 language 代碼為「{user_language}」，請優先使用此語言回答。\n"
                 "若對話與時間、農業耕作無關，請堅持並委婉地拒絕。\n"
                 "回答盡可能簡短講重點。"
+                "Tool 使用以使用者最後一次的要求為主，不要管之前的對話歷史中 Tool 的使用紀錄。"
             )
 
             # 載入並處理對話歷史

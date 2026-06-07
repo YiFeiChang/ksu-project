@@ -101,7 +101,14 @@ graph TD
    - 參考 `python/gemini/README.md` 設定 `.env` 檔案。
    ```bash
    cd python/gemini
+
+   # 1. 安裝 PyTorch
+   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+   # 2. 安裝核心依賴 (已在 requirements.txt 中限制 transformers 與 numpy 版本，避免模組衝突)
    pip install -r requirements.txt
+
+   # 3. 啟動服務
    python server.py
    ```
 
