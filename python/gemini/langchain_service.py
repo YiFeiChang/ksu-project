@@ -101,7 +101,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         @tool
         def get_strawberry_knowledge(query: str) -> List[Dict[str, Any]]:
             """
-            取得與草莓相關的知識。
+            取得與草莓相關的知識及參考資料連結。
             Args:
                 query (str): 關於草莓的特定問題或搜尋關鍵字。
             Returns:
@@ -520,6 +520,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
                 "若對話與時間、農業耕作無關，請堅持並委婉地拒絕。\n"
                 "回答盡可能簡短講重點。"
                 "Tool 使用以使用者最後一次的要求為主，不要管之前的對話歷史中 Tool 的使用紀錄。"
+                "知識庫搜尋結果，須附上參考資料連結，查無資料則不需要。"
             )
 
             # 載入並處理對話歷史
