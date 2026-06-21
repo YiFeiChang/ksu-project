@@ -110,6 +110,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
             print(f"[INFO] 呼叫工具 (get_strawberry_knowledge)，搜尋關鍵字: {query}")
             results: List[Dict[str, Any]] = []
             results = self.searcher.search(query)
+            print(f"[INFO] 工具 (get_strawberry_knowledge) 回傳結果: {results}")
             return results
 
         @tool
